@@ -1,0 +1,214 @@
+-- phpMyAdmin SQL Dump
+-- version 5.1.3
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Tiempo de generación: 14-04-2022 a las 16:54:54
+-- Versión del servidor: 8.0.27
+-- Versión de PHP: 8.1.4
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+
+--
+-- Base de datos: `empresaestetica_php`
+--
+CREATE DATABASE IF NOT EXISTS `empresaestetica_php` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish2_ci;
+USE `empresaestetica_php`;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `clientes`
+--
+
+CREATE TABLE IF NOT EXISTS `clientes` (
+  `idCliente` int NOT NULL AUTO_INCREMENT,
+  `descuentoCliente` decimal(4,2) NOT NULL,
+  `idPersonaFK` int NOT NULL,
+  PRIMARY KEY (`idCliente`),
+  KEY `idPersonaFK` (`idPersonaFK`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `clientes`
+--
+
+INSERT INTO `clientes` VALUES
+(1, '30.00', 3),
+(2, '15.00', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `compras`
+--
+
+CREATE TABLE IF NOT EXISTS `compras` (
+  `idCompra` int NOT NULL AUTO_INCREMENT,
+  `idClienteFK` int NOT NULL,
+  `idProductoFK` int NOT NULL,
+  PRIMARY KEY (`idCompra`),
+  KEY `idClienteFK` (`idClienteFK`),
+  KEY `idProductoFK` (`idProductoFK`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `compras`
+--
+
+INSERT INTO `compras` VALUES
+(1, 1, 2),
+(2, 2, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `empleados`
+--
+
+CREATE TABLE IF NOT EXISTS `empleados` (
+  `idEmpleado` int NOT NULL AUTO_INCREMENT,
+  `salarioEmpleado` decimal(6,2) NOT NULL,
+  `idEmpleadoJefeFK` int NOT NULL,
+  `idPersonaFK` int NOT NULL,
+  PRIMARY KEY (`idEmpleado`),
+  KEY `idPersonaFK` (`idPersonaFK`),
+  KEY `idEmpleadoJefeFK` (`idEmpleadoJefeFK`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `empleados`
+--
+
+INSERT INTO `empleados` VALUES
+(3, '2000.00', 2, 2),
+(4, '1200.00', 2, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `personas`
+--
+
+CREATE TABLE IF NOT EXISTS `personas` (
+  `idPersona` int NOT NULL AUTO_INCREMENT,
+  `nombrePersona` varchar(45) COLLATE utf8_spanish2_ci NOT NULL,
+  `apellidosPersona` varchar(45) COLLATE utf8_spanish2_ci NOT NULL,
+  `dniPersona` varchar(9) COLLATE utf8_spanish2_ci NOT NULL,
+  `domicilioPersona` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
+  `telefonoPersona` varchar(9) COLLATE utf8_spanish2_ci NOT NULL,
+  `emailPersona` varchar(100) COLLATE utf8_spanish2_ci NOT NULL,
+  PRIMARY KEY (`idPersona`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `personas`
+--
+
+INSERT INTO `personas` VALUES
+(1, 'Marina', 'González', '76534251A', 'Calle Juan Andrés, 13', '678362376', 'Ma_gon@gmail.com'),
+(2, 'Rosa', 'Gastón Rosales', '63748384W', 'Calle Maria Luisa, 14', '754859458', 'Rosa123@gmail.com'),
+(3, 'Ruperta', 'Castillo Marín', '89734251F', 'Calle Venezuela,178', '675645876', 'Ruper123@gmail.com'),
+(4, 'Cristina', 'Olvera Castrijón', '73647336B', 'Avda Las Palmeras,50', '637473828', 'Cris_ol-cas@gmail.com');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `productos`
+--
+
+CREATE TABLE IF NOT EXISTS `productos` (
+  `idProducto` int NOT NULL AUTO_INCREMENT,
+  `tipoProducto` varchar(45) COLLATE utf8_spanish2_ci NOT NULL,
+  `cantidadProdcuto` int NOT NULL,
+  `ivaProducto` float NOT NULL,
+  `precioVentaProducto` decimal(6,2) NOT NULL,
+  `precioCompraProducto` decimal(6,2) NOT NULL,
+  PRIMARY KEY (`idProducto`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `productos`
+--
+
+INSERT INTO `productos` VALUES
+(1, 'Crema Hidratante', 300, 21, '30.00', '15.00'),
+(2, 'Exfoliante', 200, 21, '25.00', '12.50');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `realizacion`
+--
+
+CREATE TABLE IF NOT EXISTS `realizacion` (
+  `idRealiza` int NOT NULL AUTO_INCREMENT,
+  `idEmpleadoFK` int NOT NULL,
+  `idServicioFK` int NOT NULL,
+  PRIMARY KEY (`idRealiza`),
+  KEY `idEmpleadoFK` (`idEmpleadoFK`),
+  KEY `idServicioFK` (`idServicioFK`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `realizacion`
+--
+
+INSERT INTO `realizacion` VALUES
+(1, 3, 1),
+(2, 4, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `servicios`
+--
+
+CREATE TABLE IF NOT EXISTS `servicios` (
+  `idServicio` int NOT NULL AUTO_INCREMENT,
+  `tratamientoServicio` varchar(45) COLLATE utf8_spanish2_ci NOT NULL,
+  `calidadServicio` varchar(45) COLLATE utf8_spanish2_ci NOT NULL,
+  `tipoServicio` varchar(45) COLLATE utf8_spanish2_ci NOT NULL,
+  `duracionServicio` time NOT NULL,
+  PRIMARY KEY (`idServicio`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_spanish2_ci;
+
+--
+-- Volcado de datos para la tabla `servicios`
+--
+
+INSERT INTO `servicios` VALUES
+(1, 'Masaje Corporal', 'Máxima calidad', 'Masaje relajante', '00:30:00'),
+(2, 'Presoterapia', 'Máxima Calidad', 'Drenaje por presión', '00:30:00');
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `clientes`
+--
+ALTER TABLE `clientes`
+  ADD CONSTRAINT `clientes_ibfk_1` FOREIGN KEY (`idPersonaFK`) REFERENCES `personas` (`idPersona`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Filtros para la tabla `compras`
+--
+ALTER TABLE `compras`
+  ADD CONSTRAINT `compras_ibfk_1` FOREIGN KEY (`idClienteFK`) REFERENCES `clientes` (`idCliente`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `compras_ibfk_2` FOREIGN KEY (`idProductoFK`) REFERENCES `productos` (`idProducto`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Filtros para la tabla `empleados`
+--
+ALTER TABLE `empleados`
+  ADD CONSTRAINT `empleados_ibfk_1` FOREIGN KEY (`idPersonaFK`) REFERENCES `personas` (`idPersona`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Filtros para la tabla `realizacion`
+--
+ALTER TABLE `realizacion`
+  ADD CONSTRAINT `realizacion_ibfk_1` FOREIGN KEY (`idEmpleadoFK`) REFERENCES `empleados` (`idEmpleado`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `realizacion_ibfk_2` FOREIGN KEY (`idServicioFK`) REFERENCES `servicios` (`idServicio`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+COMMIT;
